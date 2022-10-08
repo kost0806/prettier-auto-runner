@@ -92,7 +92,13 @@ describe('GitHubAgent - git-tools Part', () => {
   });
 
   it('commit', () => {
-    expect('').toBe('');
+    const githubAgent = new GitHubAgent();
+
+    githubAgent.commit();
+
+    expect(mockExecSync).toBeCalledWith(
+      'git commit -m "🎨 Code Style Applied!"'
+    );
   });
 
   it('push', () => {

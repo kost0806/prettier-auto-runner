@@ -59,7 +59,7 @@ class GitHubAgent {
   }
 
   public commit(): void {
-    throw new NotImplementedError();
+    child_process.execSync('git commit -m "🎨 Code Style Applied!"');
   }
 
   public push(): void {
