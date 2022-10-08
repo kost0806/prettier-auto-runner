@@ -76,16 +76,4 @@ describe('GitHubAgent - git-tools Part', () => {
 
     expect(expectedFileContent).toEqual('Test File Content');
   });
-
-  it('addFiles', () => {
-    expect('').toBe('');
-  });
-
-  it('commit', () => {
-    expect('').toBe('');
-  });
-
-  it('push', () => {
-    expect('').toBe('');
-  });
 });
