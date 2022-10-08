@@ -26,7 +26,12 @@ jest.mock('@actions/github', () => ({
   getOctokit: () => ({
     rest: {
       pulls: {
-        listFiles: () =>
+        listFiles: (p: {
+          owner: string;
+          per_page: number;
+          pull_number: number;
+          repo: string;
+        }) =>
           new Promise((resolve, reject) =>
             resolve({
               data: [
