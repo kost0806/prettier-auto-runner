@@ -1,0 +1,40 @@
+{
+  "name": "prettier-auto-runner",
+  "version": "0.0.1-beta",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "npm run lint && ncc build src/index.ts -o dist",
+    "start": "node dist/index.js",
+    "lint": "eslint --fix src/**/* test/**/*",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kost0806/prettier-auto-runner.git"
+  },
+  "author": "Minyeong Kim (min4658.kim)",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/kost0806/prettier-auto-runner/issues"
+  },
+  "homepage": "https://github.com/kost0806/prettier-auto-runner#readme",
+  "devDependencies": {
+    "@types/jest": "^29.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
+    "@vercel/ncc": "^0.34.0",
+    "eslint": "^8.24.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.1.2",
+    "prettier": "^2.7.1",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
+  }
+}
