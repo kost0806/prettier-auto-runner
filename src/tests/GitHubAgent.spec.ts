@@ -5,12 +5,6 @@ jest.mock('@actions/core', () => ({
   getInput: () => 'test-token',
 }));
 
-/**
- * GitHub.context.repo.owner,
- * GitHub.context.repo.repo,
- * GitHub.context.payload.pull_request?.number || 0,
- */
-
 jest.mock('@actions/github', () => ({
   context: {
     repo: {
@@ -45,6 +39,16 @@ jest.mock('@actions/github', () => ({
       },
     },
   }),
+}));
+
+jest.mock('fs', () => ({
+  readFileSync: (filePath: string) => {
+    if (filePath !== '/tmp/_repo/src/index.ts') {
+      return Buffer.from('BAD PATH', 'utf-8');
+    }
+
+    return Buffer.from('Test File Content', 'utf-8');
+  },
 }));
 
 describe('GitHubAgent - GitHub Actions Toolkit Part', () => {

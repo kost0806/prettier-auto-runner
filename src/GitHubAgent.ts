@@ -43,7 +43,15 @@ class GitHubAgent {
   }
 
   public getRawFileContent(filePath: string): string {
-    throw new NotImplementedError();
+    let actualFilePath = GitHubAgent.CLONE_PATH;
+    if (filePath.startsWith('/')) {
+      actualFilePath += filePath;
+    } else {
+      actualFilePath += `/${filePath}`;
+    }
+    const buffer = fs.readFileSync(actualFilePath);
+
+    return buffer.toString('utf-8');
   }
 
   public addFiles(filePaths: Array<string>): void {
