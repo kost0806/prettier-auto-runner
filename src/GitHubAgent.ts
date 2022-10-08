@@ -1,11 +1,15 @@
 import NotImplementedError from './exceptions/NotImplementedError';
 import * as GitHub from '@actions/github';
 import * as Core from '@actions/core';
+import * as fs from 'fs';
+import * as child_process from 'child_process';
 
 type Octokit = ReturnType<typeof GitHub.getOctokit>;
 
 class GitHubAgent {
   private octokit: Octokit;
+  private static CLONE_PATH: string = '/tmp/_repo';
+
   constructor() {
     const githubToken = Core.getInput('github-token', { required: true });
     this.octokit = GitHub.getOctokit(githubToken);
@@ -28,7 +32,17 @@ class GitHubAgent {
     return [];
   }
 
-  public async getRawFileContent(filePath: string): Promise<string> {
+  public cloneToFileSystem(): void {
+    if (!fs.existsSync(GitHubAgent.CLONE_PATH)) {
+      fs.mkdirSync(GitHubAgent.CLONE_PATH);
+    }
+
+    child_process.execSync(
+      `git clone ${GitHub.context.payload.repository?.html_url} ${GitHubAgent.CLONE_PATH}`
+    );
+  }
+
+  public getRawFileContent(filePath: string): string {
     throw new NotImplementedError();
   }
 
