@@ -39,6 +39,10 @@ class GitHubAgent {
     child_process.execSync(
       `git clone ${GitHub.context.payload.repository?.html_url} ${GitHubAgent.CLONE_PATH}`
     );
+    const headRef = GitHub.context.payload.head.ref;
+    child_process.execSync(
+      `cd ${GitHubAgent.CLONE_PATH} && git checkout ${headRef} && git pull origin ${headRef}`
+    );
   }
 
   public getRawFileContent(filePath: string): string {
