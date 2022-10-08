@@ -7,7 +7,7 @@ class GitHubAgent {
     throw new NotImplementedError();
   }
 
-  public getRawFileContent(): string {
+  public getRawFileContent(filePath: string): string {
     throw new NotImplementedError();
   }
 
