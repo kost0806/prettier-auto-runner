@@ -14,7 +14,9 @@ describe('GitHubAgent - GitHub Actions Toolkit Part', () => {
       '/src/exceptions/NotImplementedError.ts',
     ]);
   });
+});
 
+describe('GitHubAgent - git-tools Part', () => {
   it('getRawFileContent', () => {
     const githubAgent = new GitHubAgent();
 
@@ -22,9 +24,7 @@ describe('GitHubAgent - GitHub Actions Toolkit Part', () => {
 
     expect(expectedFileContent).toEqual('Test File Content');
   });
-});
 
-describe('GitHubAgent - git-tools Part', () => {
   it('addFiles', () => {
     expect('').toBe('');
   });
