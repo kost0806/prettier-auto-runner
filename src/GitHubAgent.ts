@@ -55,7 +55,7 @@ class GitHubAgent {
   }
 
   public addFiles(filePaths: Array<string>): void {
-    throw new NotImplementedError();
+    child_process.execSync(`git add ${filePaths.join(' ')}`);
   }
 
   public commit(): void {

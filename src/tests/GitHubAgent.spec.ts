@@ -20,13 +20,13 @@ jest.mock('@actions/github', () => ({
   getOctokit: () => ({
     rest: {
       pulls: {
-        listFiles: (p: {
+        listFiles: (_p: {
           owner: string;
           per_page: number;
           pull_number: number;
           repo: string;
         }) =>
-          new Promise((resolve, reject) =>
+          new Promise((resolve, _reject) =>
             resolve({
               data: [
                 { filename: '/src/GitHubAgent.ts' },
@@ -49,6 +49,11 @@ jest.mock('fs', () => ({
 
     return Buffer.from('Test File Content', 'utf-8');
   },
+}));
+
+const mockExecSync = jest.fn();
+jest.mock('child_process', () => ({
+  execSync: (a: string) => mockExecSync(a),
 }));
 
 describe('GitHubAgent - GitHub Actions Toolkit Part', () => {
@@ -75,5 +80,22 @@ describe('GitHubAgent - git-tools Part', () => {
     const expectedFileContent = githubAgent.getRawFileContent('/src/index.ts');
 
     expect(expectedFileContent).toEqual('Test File Content');
+  });
+
+  it('addFiles', () => {
+    const githubAgent = new GitHubAgent();
+
+    const givenPaths = ['/Test/1', '/Test/2', '/Test/3'];
+    githubAgent.addFiles(givenPaths);
+
+    expect(mockExecSync).toBeCalledWith(`git add ${givenPaths.join(' ')}`);
+  });
+
+  it('commit', () => {
+    expect('').toBe('');
+  });
+
+  it('push', () => {
+    expect('').toBe('');
   });
 });
