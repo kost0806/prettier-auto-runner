@@ -15,6 +15,9 @@ jest.mock('@actions/github', () => ({
       pull_request: {
         number: 1,
       },
+      head: {
+        ref: 'TEST_BRANCH',
+      },
     },
   },
   getOctokit: () => ({
@@ -102,6 +105,10 @@ describe('GitHubAgent - git-tools Part', () => {
   });
 
   it('push', () => {
-    expect('').toBe('');
+    const githubAgent = new GitHubAgent();
+
+    githubAgent.push();
+
+    expect(mockExecSync).toBeCalledWith('git push origin TEST_BRANCH');
   });
 });

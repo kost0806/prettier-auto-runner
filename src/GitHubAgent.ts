@@ -1,4 +1,3 @@
-import NotImplementedError from './exceptions/NotImplementedError';
 import * as GitHub from '@actions/github';
 import * as Core from '@actions/core';
 import * as fs from 'fs';
@@ -63,7 +62,9 @@ class GitHubAgent {
   }
 
   public push(): void {
-    throw new NotImplementedError();
+    child_process.execSync(
+      `git push origin ${GitHub.context.payload.head.ref}`
+    );
   }
 }
 
