@@ -1,15 +1,19 @@
 import { describe, it, expect } from '@jest/globals';
 import PrettierAgent from '../PrettierAgent';
 
-jest.mock('fs', () => ({
-  readFileSync: (filePath: string) => {
-    if (filePath !== '/test/code') {
-      return Buffer.from('BAD PATH', 'utf-8');
-    }
+jest.mock('fs', () => {
+  const actualModule = jest.requireActual('fs');
+  return {
+    ...actualModule,
+    readFileSync: (filePath: string) => {
+      if (filePath !== '/test/code') {
+        return Buffer.from('BAD PATH', 'utf-8');
+      }
 
-    return Buffer.from('Test File Content', 'utf-8');
-  },
-}));
+      return Buffer.from('Test File Content', 'utf-8');
+    },
+  };
+});
 
 describe('Prettier Test', () => {
   it('loadConfig', () => {
@@ -43,7 +47,7 @@ describe('Prettier Test', () => {
     const givenCode = 'foo ( );';
     const beautifiedCode = prettierAgent.beautifyCode(givenCode);
 
-    expect(beautifiedCode).toEqual('foo()');
+    expect(beautifiedCode).toEqual('foo();\n');
   });
 
   it('overwriteFileContent', () => {

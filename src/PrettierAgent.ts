@@ -26,7 +26,7 @@ class PrettierAgent {
   }
 
   public beautifyCode(code: string): string {
-    throw new NotImplementedError();
+    return this.prettier.format(code, { parser: 'babel' });
   }
 
   public overwriteFileContent(path: string, code: string): void {
