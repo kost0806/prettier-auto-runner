@@ -1,18 +1,36 @@
-import NotImplementedError from './exceptions/NotImplementedError';
+import GitHubAgent from './GitHubAgent';
+import PrettierAgent from './PrettierAgent';
 
 class PrettierAutoRunner {
-  constructor() {}
+  private githubAgent: GitHubAgent;
+  private prettierAgent: PrettierAgent;
 
-  public run(): void {
-    throw new NotImplementedError();
+  constructor() {
+    this.githubAgent = new GitHubAgent();
+    this.prettierAgent = new PrettierAgent();
+  }
+
+  public async run(): Promise<void> {
+    const changedFilePaths = await this.githubAgent.getChangedFilePaths();
+    this.githubAgent.cloneToFileSystem();
+    const actualFilePaths = changedFilePaths.map(
+      (path) => `/tmp/_repo/${path}`
+    );
+
+    this.beautify(actualFilePaths);
+    this.applyChangesToPullRequest(actualFilePaths);
   }
 
   private beautify(filePaths: Array<string>): void {
-    throw new NotImplementedError();
+    for (const filePath of filePaths) {
+      this.prettierAgent.beautifySingleFile(filePath);
+    }
   }
 
-  private applyChangesToPullRequest(): void {
-    throw new NotImplementedError();
+  private applyChangesToPullRequest(filePaths: Array<string>): void {
+    this.githubAgent.addFiles(filePaths);
+    this.githubAgent.commit();
+    this.githubAgent.push();
   }
 }
 

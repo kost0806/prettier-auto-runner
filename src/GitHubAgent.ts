@@ -58,16 +58,20 @@ class GitHubAgent {
   }
 
   public addFiles(filePaths: Array<string>): void {
-    child_process.execSync(`git add ${filePaths.join(' ')}`);
+    child_process.execSync(
+      `cd ${GitHubAgent.CLONE_PATH} && git add ${filePaths.join(' ')}`
+    );
   }
 
   public commit(): void {
-    child_process.execSync('git commit -m "🎨 Code Style Applied!"');
+    child_process.execSync(
+      `cd ${GitHubAgent.CLONE_PATH} && git commit -m "🎨 Code Style Applied!"`
+    );
   }
 
   public push(): void {
     child_process.execSync(
-      `git push origin ${GitHub.context.payload.head.ref}`
+      `cd ${GitHubAgent.CLONE_PATH} && git push origin ${GitHub.context.payload.head.ref}`
     );
   }
 }

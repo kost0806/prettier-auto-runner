@@ -91,7 +91,9 @@ describe('GitHubAgent - git-tools Part', () => {
     const givenPaths = ['/Test/1', '/Test/2', '/Test/3'];
     githubAgent.addFiles(givenPaths);
 
-    expect(mockExecSync).toBeCalledWith(`git add ${givenPaths.join(' ')}`);
+    expect(mockExecSync).toBeCalledWith(
+      `cd /tmp/_repo && git add ${givenPaths.join(' ')}`
+    );
   });
 
   it('commit', () => {
@@ -100,7 +102,7 @@ describe('GitHubAgent - git-tools Part', () => {
     githubAgent.commit();
 
     expect(mockExecSync).toBeCalledWith(
-      'git commit -m "🎨 Code Style Applied!"'
+      'cd /tmp/_repo && git commit -m "🎨 Code Style Applied!"'
     );
   });
 
@@ -109,6 +111,8 @@ describe('GitHubAgent - git-tools Part', () => {
 
     githubAgent.push();
 
-    expect(mockExecSync).toBeCalledWith('git push origin TEST_BRANCH');
+    expect(mockExecSync).toBeCalledWith(
+      'cd /tmp/_repo && git push origin TEST_BRANCH'
+    );
   });
 });
