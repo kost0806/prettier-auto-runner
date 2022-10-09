@@ -7,18 +7,18 @@ jest.mock('fs', () => {
   return {
     ...actualModule,
     readFileSync: (filePath: string) => {
-      if (filePath !== '/test/code') {
-        return Buffer.from('BAD PATH', 'utf-8');
+      if (filePath === '/test/code') {
+        return Buffer.from('foo ( );', 'utf-8');
       }
 
-      return Buffer.from('Test File Content', 'utf-8');
+      return actualModule.readFileSync(filePath);
     },
     writeFileSync: (filePath: string, data: Buffer) => {
       if (filePath !== '/test/code') {
         throw new AssertionFailedError('Path is not matched');
       }
 
-      if (data.toString('utf-8') !== 'TEST CODE') {
+      if (data.toString('utf-8') !== 'foo();\n') {
         throw new AssertionFailedError('Content is not matched');
       }
     },
@@ -29,7 +29,7 @@ describe('Prettier Test', () => {
   it('loadConfig', () => {
     const prettierAgent = new PrettierAgent();
 
-    const givenConfigPath = '/CONFIG_PATH';
+    const givenConfigPath = '../../.prettierrc.json';
     expect(() => prettierAgent.loadConfig(givenConfigPath)).not.toThrow();
   });
 
@@ -37,7 +37,6 @@ describe('Prettier Test', () => {
     const prettierAgent = new PrettierAgent();
 
     const givenFilePath = '/test/code';
-    prettierAgent.beautifySingleFile(givenFilePath);
 
     expect(() => prettierAgent.beautifySingleFile(givenFilePath)).not.toThrow();
   });
@@ -48,7 +47,7 @@ describe('Prettier Test', () => {
     const givenFilePath = '/test/code';
     const result = prettierAgent.loadFileContent(givenFilePath);
 
-    expect(result).toEqual('Test File Content');
+    expect(result).toEqual('foo ( );');
   });
 
   it('beautifyCode', () => {
@@ -63,7 +62,7 @@ describe('Prettier Test', () => {
   it('overwriteFileContent', () => {
     const prettierAgent = new PrettierAgent();
 
-    const givenCode = 'TEST CODE';
+    const givenCode = 'foo();\n';
     const givenPath = '/test/code';
     expect(() =>
       prettierAgent.overwriteFileContent(givenPath, givenCode)

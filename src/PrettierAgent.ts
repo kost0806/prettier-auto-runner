@@ -1,4 +1,3 @@
-import NotImplementedError from './exceptions/NotImplementedError';
 import * as fs from 'fs';
 
 const prettier = require('prettier');
@@ -17,7 +16,9 @@ class PrettierAgent {
   }
 
   public beautifySingleFile(path: string): void {
-    throw new NotImplementedError();
+    const code = this.loadFileContent(path);
+    const beautifiedCode = this.beautifyCode(code);
+    this.overwriteFileContent(path, beautifiedCode);
   }
 
   public loadFileContent(path: string): string {
