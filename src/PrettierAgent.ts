@@ -30,7 +30,7 @@ class PrettierAgent {
   }
 
   public overwriteFileContent(path: string, code: string): void {
-    throw new NotImplementedError();
+    fs.writeFileSync(path, Buffer.from(code, 'utf-8'));
   }
 }
 

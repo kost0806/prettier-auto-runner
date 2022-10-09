@@ -1,5 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import PrettierAgent from '../PrettierAgent';
+import AssertionFailedError from '../exceptions/AssertionFailedError';
 
 jest.mock('fs', () => {
   const actualModule = jest.requireActual('fs');
@@ -11,6 +12,15 @@ jest.mock('fs', () => {
       }
 
       return Buffer.from('Test File Content', 'utf-8');
+    },
+    writeFileSync: (filePath: string, data: Buffer) => {
+      if (filePath !== '/test/code') {
+        throw new AssertionFailedError('Path is not matched');
+      }
+
+      if (data.toString('utf-8') !== 'TEST CODE') {
+        throw new AssertionFailedError('Content is not matched');
+      }
     },
   };
 });
@@ -55,8 +65,8 @@ describe('Prettier Test', () => {
 
     const givenCode = 'TEST CODE';
     const givenPath = '/test/code';
-    prettierAgent.overwriteFileContent(givenPath, givenCode);
-
-    // fs Spy로 Call 확인
+    expect(() =>
+      prettierAgent.overwriteFileContent(givenPath, givenCode)
+    ).not.toThrow();
   });
 });
