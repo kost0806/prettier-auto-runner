@@ -1,5 +1,4 @@
 import NotImplementedError from './exceptions/NotImplementedError';
-import notImplementedError from './exceptions/NotImplementedError';
 
 class PrettierAgent {
   constructor() {}
@@ -12,15 +11,17 @@ class PrettierAgent {
     throw new NotImplementedError();
   }
 
-  private loadFileContent(path: string): string {
+  public loadFileContent(path: string): string {
     throw new NotImplementedError();
   }
 
-  private beautifyCode(code: string): string {
+  public beautifyCode(code: string): string {
     throw new NotImplementedError();
   }
 
-  private overwriteFileContent(code: string): void {
+  public overwriteFileContent(path: string, code: string): void {
     throw new NotImplementedError();
   }
 }
+
+export default PrettierAgent;
