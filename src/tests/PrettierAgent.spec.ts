@@ -1,13 +1,12 @@
 import { describe, it, expect } from '@jest/globals';
 import PrettierAgent from '../PrettierAgent';
 
-const GIVEN_CONFIG_PATH = '/CONFIG_PATH';
-
 describe('Prettier Test', () => {
   it('loadConfig', () => {
     const prettierAgent = new PrettierAgent();
 
-    expect(() => prettierAgent.loadConfig(GIVEN_CONFIG_PATH)).not.toThrow();
+    const givenConfigPath = '/CONFIG_PATH';
+    expect(() => prettierAgent.loadConfig(givenConfigPath)).not.toThrow();
   });
 
   it('beautifySingleFile', () => {

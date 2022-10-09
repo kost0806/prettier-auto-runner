@@ -1,10 +1,18 @@
 import NotImplementedError from './exceptions/NotImplementedError';
 
+const prettier = require('prettier');
+
+type PrettierType = InstanceType<typeof prettier>;
+
 class PrettierAgent {
-  constructor() {}
+  private prettier: PrettierType;
+
+  constructor() {
+    this.prettier = prettier;
+  }
 
   public loadConfig(path: string): void {
-    throw new NotImplementedError();
+    this.prettier.resolveConfigFile.sync(path);
   }
 
   public beautifySingleFile(path: string): void {
