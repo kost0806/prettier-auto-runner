@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/src/index.js",
   "scripts": {
-    "build": "npm run lint && tsc && ncc build",
+    "build": "npm run lint && tsc && ncc build -m",
     "start": "ts-node src/index.ts",
     "lint": "eslint --fix src/**/*",
     "test": "jest"
